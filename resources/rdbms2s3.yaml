@@ -1,0 +1,23 @@
+# database info
+database:
+  type: oracle   # oracle/mysql
+  url: ****************
+  schema: *******
+  password: ********
+  tables:
+    - table1
+    - table2
+    - view1
+
+# s3 setting
+s3:
+  region_name: *****
+  bucket_name: ***s3-bucket**
+  folder_name: ******
+  access_key_id: ******
+  secret_access_key: *************************
+
+# only use for oracle database
+oracle:
+  instant_client: /path/to/instantclient
+
