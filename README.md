@@ -1,6 +1,10 @@
 # RDBMS To S3
 
-## Current applications
+rdbms2s3 is a ETL tool which imports data from related database to AWS S3 bucket as CSV/parquet. Currently it can handle oracle and MySQl database.
+
+##How It Works
+rdbms2s3 contains a few CLI tools for each different database types. User can use a config yaml file to specify database and s3 informations.
+Two tools are currently created for Oracle and MySQL database.
 - oracle_2_s3
 - mysql_2_s3
 
@@ -23,7 +27,33 @@ pip install .
 
 ## Create a Config File
 
-- use rdbms2s3.yaml under resources as template.
+rdbms2s3 currently only support yaml config file.
+
+- rdbms2s3.yaml.
+```
+# database info
+database:
+  type: oracle   # oracle/mysql
+  url: ****************
+  schema: *******
+  password: ********
+  tables:
+    - table1
+    - table2
+    - view1
+
+# s3 setting
+s3:
+  region_name: *****
+  bucket_name: ***s3-bucket**
+  folder_name: ******
+  access_key_id: ******
+  secret_access_key: *************************
+
+# only use for oracle database
+oracle:
+  instant_client: /path/to/instantclient
+```
 
 
 ## How To Run
