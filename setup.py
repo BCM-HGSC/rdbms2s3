@@ -2,6 +2,9 @@ from os import path
 from setuptools import setup, find_packages
 
 HERE = path.abspath(path.dirname(__file__))
+# Load the version
+with open(path.join(HERE, "version.py")) as version_file:
+    exec(version_file.read())
 
 REQUIREMENTS = [
     "addict",
@@ -16,7 +19,7 @@ REQUIREMENTS = [
 
 setup(
     name='rdbms2s3',
-    version='1.0.0',
+    version=__version__,
     description="This application imports data from RDBMS to AWS S3 bucket as CSV/parquet.",
     author="Liwen Wang",
     author_email="liwenw@bcm.edu",
