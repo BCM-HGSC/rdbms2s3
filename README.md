@@ -1,6 +1,6 @@
 # RDBMS To S3
 
-rdbms2s3 is a ETL tool which imports data from related database to AWS S3 bucket as CSV/parquet. Currently it can handle oracle and MySQl database.
+rdbms2s3 is an ETL tool which imports data from related database to AWS S3 bucket as CSV/parquet. Currently it can handle oracle and MySQl database.
 
 ## How It Works
 rdbms2s3 contains a few CLI tools for each different database types. User can use a config yaml file to specify database and s3 informations.
