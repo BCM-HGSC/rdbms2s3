@@ -34,7 +34,6 @@ def main():
         file_format = config.s3.file_format
         logger.info('Initialize oracle client')
         cx_Oracle.init_oracle_client(lib_dir=config.oracle.instant_client)
-
         for table in config.database.tables:
             logger.info(f'Start to transfer data from table {table}')
             retriever = oracle.oracle_retriever(config, table)
