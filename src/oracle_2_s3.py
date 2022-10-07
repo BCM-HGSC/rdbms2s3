@@ -13,7 +13,7 @@ from addict import Dict
 from utils import oracle
 from utils import s3_client
 
-logger = logging.getLogger("covid-19")
+logger = logging.getLogger("rdbms")
 logger.setLevel(logging.DEBUG)
 log_handler = logging.StreamHandler(stream=sys.stderr)
 log_handler.setFormatter(
