@@ -15,6 +15,7 @@ REQUIREMENTS = [
     'sqlalchemy',
     'cx_Oracle',
     'pymysql',
+    'connectorx',
 ]
 
 setup(

@@ -2,6 +2,8 @@
 database:
   type: oracle   # oracle/mysql
   url: ****************
+  port: 1521
+  service_name: *****
   schema: *******
   password: ********
   tables:
