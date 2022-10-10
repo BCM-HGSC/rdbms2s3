@@ -23,13 +23,20 @@ def create_parser():
                         help="Yaml property file for pipeline", metavar="PROP")
     return parser
 
-def write_pandas_parquet_to_s3(s3_client, pd_df, bucket_name, folder_name, tablename):
+def write_pandas_to_s3(s3_client, pd_df, bucket_name, folder_name, tablename, file_format):
     out_buffer = BytesIO()
-    pd_df.to_parquet(out_buffer, index=False)
-    out_buffer.seek(0)
-    s3_client.put_object(Bucket=bucket_name,
-                         Body=out_buffer.getvalue(),
-                         Key=f'{folder_name}/{tablename}/{tablename}.parquet')
+    if file_format == 'csv':
+        pd_df.to_csv(out_buffer, header=True, index=False)
+        out_buffer.seek(0)
+        s3_client.put_object(Bucket=bucket_name,
+                             Body=out_buffer.getvalue(),
+                             Key=f'{folder_name}/{tablename}/{tablename}.csv')
+    else:  # default: parquet
+        pd_df.to_parquet(out_buffer, index=False)
+        out_buffer.seek(0)
+        s3_client.put_object(Bucket=bucket_name,
+                             Body=out_buffer.getvalue(),
+                             Key=f'{folder_name}/{tablename}/{tablename}.parquet')
 
 def main():
     parser = create_parser()
@@ -40,6 +47,7 @@ def main():
         with open(propertyfile, "rb") as fin:
             config_bytes = fin.read()
         config = Dict(yaml.safe_load(config_bytes))
+        file_format = config.s3.file_format
 
         conn = f"oracle://{urllib.parse.quote_plus(config.database.schema)}:{urllib.parse.quote_plus(config.database.password)}" \
                    f"@{urllib.parse.quote_plus(config.database.url)}:{config.database.port}/{config.database.service_name}"
@@ -56,7 +64,7 @@ def main():
             # print(f'Read_sql time for table {table}: {time.time() - start_time}')
             # start_time = time.time()
             logger.info(f'Start to transfer data to s3')
-            write_pandas_parquet_to_s3(s3_client, df, config.s3.bucket_name, config.s3.folder_name, table)
+            write_pandas_to_s3(s3_client, df, config.s3.bucket_name, config.s3.folder_name, table, file_format)
             # print(f'Transfer to s3 time for table {table}: {time.time() - start_time}')
             logger.info(f'End to transfer data to s3')
     except IOError as e1:
